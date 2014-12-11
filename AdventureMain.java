@@ -18,6 +18,7 @@ public class AdventureMain {
 		String command = "";
 		setupRooms();
 		updateCurrentRoom(currRoomID);
+		//boolean dead = false; 
 		
 		//main game loop
 		//set to false if the user quits
@@ -26,7 +27,10 @@ public class AdventureMain {
 			
 			playing = parseCommand(command);
 							
-			//set playing to false if the user is dead
+			// if(dead == true){
+			// System.out.println("Your done kid gg")
+			// break;
+			// }
 		}		
 		
 	}
@@ -113,9 +117,54 @@ public class AdventureMain {
 		roomList.add(r);
 		
 		r = new Room(2, "Jailblock", "It's dark.");
-		r.setExits(0,0,0,1); //fix these exits
+		//		   N E S W
+		r.setExits(0,3,0,1); //fix these exits
+		roomList.add(r);
+		
+		r = new Room(3, "Hub", "");
+		//		   N E S W
+		r.setExits(4,7,6,2); //fix these exits
+		roomList.add(r);
+		
+		// *******************************Requires flash light because it is so dark************************************8
+		r = new Room(4, "cafe", "");
+		//		   N E S W
+		r.setExits(0,9,3,5); //fix these exits
 		roomList.add(r);
 	
+		r = new Room(5, "kitchen", "");
+		//		   N E S W
+		r.setExits(0,4,0,0); //fix these exits
+		roomList.add(r);
+		
+		r = new Room(6, "reception", "");
+		//		   N E S W
+		r.setExits(3,0,0,0); //fix these exits
+		roomList.add(r);
+		
+		r = new Room(7, "barracks", "");
+		//		   N E S W
+		r.setExits(9,3,0,8); //fix these exits
+		roomList.add(r);
+		
+		r = new Room(8, "filing room", "");
+		//		   N E S W
+		r.setExits(0,0,0,7); //fix these exits
+		roomList.add(r);
+		
+		r = new Room(9, "warden's office", "");
+		//		   N E S W
+		r.setExits(0,0,7,0); //fix these exits
+		roomList.add(r);
+		
+		// *******************************needs an object to enter***********************************************
+		r = new Room(9, "vault", "");
+		//		   N E S W
+		r.setExits(0,0,7,0); //fix these exits
+		roomList.add(r);
+		
+	
+		
 	//	for (Room m : roomList){
 	//		System.out.println(m.toString());
 	//	}
