@@ -23,7 +23,8 @@ public class AdventureMain {
 		"You awake to the deafening cries of your own thoughts, all pleading for escape from  \n" + 
 		"this hell. Your cell is small and dark, and yet, a bright hope suddenly sparks within you.\n" +
 		"This is the night to escape if you are to retain your sanity.\n" +
-		"WELCOME TO: PRISONBREAK";
+		"WELCOME TO: PRISONBREAK\n"+
+		"\t Type help for a list of commands";
 		
 		System.out.println(introText);
 		
@@ -93,6 +94,16 @@ public class AdventureMain {
 				//	lookAtObject(words[]);
 				break;
 			}
+		case "?": case "HELP":
+			System.out.println("Commands: \n" + 
+			"\"North\"-sends you in the north direction \n" +
+			"\"East\"- Sends you in the East direction \n"+
+			"\"South\"- Sends you in the South direction \n" +
+			"\"West\"- Sends you in the West direction \n" +
+			"\"Look\"- Gives you a description of your surroundings \n"+
+			"\"Quit\" or \"die\"- ends your game (lol) \n"+
+			"\"Help\"- gives you a list of commands (duh)");
+			
 			System.out.println("You are in the "+ currentRoom.getTitle() + ". " + currentRoom.getDesc());
 			break;
 		default: 
