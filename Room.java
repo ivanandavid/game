@@ -35,7 +35,9 @@ public class Room{
 	
 	int getRoomID()	  { return roomID; }
 	String getTitle() { return title; }
-	String getDesc()  { return description; }
+	
+	void setDesc(String s)	{ this.description = s; }
+	String getDesc()  		{ return description; }
 	
 	//most classes need to have this
 	public String toString(){
