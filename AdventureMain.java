@@ -5,6 +5,7 @@ public class AdventureMain {
 
 	//global (instance) variables
 	ArrayList<Room> roomList = new ArrayList<Room>();
+	ArrayList<Item> itemList = new ArrayList<Item>();
 	int currRoomID = 1;
 	Room currentRoom = new Room(0,"","");;
 	
@@ -90,10 +91,11 @@ public class AdventureMain {
 			move(word1.charAt(0));
 			break;
 		case "LOOK":
-			if (word2.equals("AT")) {
+			// if (word2.equals("AT")) { // FOR LOOKING AT AN ITEM OK
 				//	lookAtObject(words[]);
-				break;
-			}
+			// }
+			System.out.println("You are in the "+ currentRoom.getTitle() + ". " + currentRoom.getDesc());
+			break;
 		case "?": case "HELP":
 			System.out.println("Commands: \n" + 
 			"\"North\"-sends you in the north direction \n" +
@@ -103,13 +105,13 @@ public class AdventureMain {
 			"\"Look\"- Gives you a description of your surroundings \n"+
 			"\"Quit\" or \"die\"- ends your game (lol) \n"+
 			"\"Help\"- gives you a list of commands (duh)");
+		
 			
-			System.out.println("You are in the "+ currentRoom.getTitle() + ". " + currentRoom.getDesc());
 			break;
 		default: 
 			System.out.println("Sorry, I don't understand that command");
-		}
-		System.out.println("\n" + currentRoom.getTitle());			
+			System.out.println("\n" + currentRoom.getTitle() + ", " + currentRoom.getDesc());
+		}			
 		return true;
 		
 		
@@ -124,12 +126,27 @@ public class AdventureMain {
 		currRoomID = newRoom;
 		updateCurrentRoom(currRoomID);
 		System.out.println("You walk to the "+ currentRoom.getTitle() + ". " + currentRoom.getDesc());
+		//now see if there are any items in the room. 
+		//go through all of the itmes, 
+		for (Item item : itemList){
+			//Any that have location == currRoomID --> print out.
+			//if(
+		}
+		
+	}
+	
+	
+	void makeItems() {
+		Item i = new Item("flashlight", "A flashlight, ready to guide the way through dark places", 1);	
+		itemList.add(i);
+		
+
 	}
 	
 	
 	void setupRooms() {
 
-		Room r = new Room(1, "Jail Cell", "");
+		Room r = new Room(1, "Jail Cell","");
 		//		   N E S W
 		r.setExits(0,2,0,0);
 		r.setDesc("A small and dark jail cell. Your sanity feels unstable in this room.");
@@ -190,11 +207,11 @@ public class AdventureMain {
 		r.setExits(0,0,0,0); 
 		r.setDesc("There is no treasure! Nothing but a small device");
 		roomList.add(r);
-	
 		
-		//	for (Room m : roomList){
-		//		System.out.println(m.toString());
-		//	}
+		
+		// for (Room m : roomList){
+		// System.out.println(m.getTitle());
+		// }
 	}
 	
 }
