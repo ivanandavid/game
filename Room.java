@@ -6,7 +6,6 @@ public class Room{
 	private int roomID;
 	private String title;
 	private String description;
-	private String long_desc;
 	private int N,E,S,W; //add U, D if needed
 
 	//constructos
@@ -38,6 +37,7 @@ public class Room{
 	
 	void setDesc(String s)	{ this.description = s; }
 	String getDesc()  		{ return description; }
+	
 	
 	//most classes need to have this
 	public String toString(){
