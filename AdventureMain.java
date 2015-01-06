@@ -1,4 +1,4 @@
-//package AdventureGame;
+
 import java.util.*;
 
 public class AdventureMain {
@@ -18,6 +18,7 @@ public class AdventureMain {
 		boolean playing = true;
 		String command = "";
 		setupRooms();
+		makeItems();
 		updateCurrentRoom(currRoomID);
 		//boolean dead = false; 
 		String introText = 
@@ -104,7 +105,8 @@ public class AdventureMain {
 			"\"West\"- Sends you in the West direction \n" +
 			"\"Look\"- Gives you a description of your surroundings \n"+
 			"\"Quit\" or \"die\"- ends your game (lol) \n"+
-			"\"Help\"- gives you a list of commands (duh)");
+			"\"Help\"- gives you a list of commands (duh) \n"+
+			"\"Pick up (Items name)\"- picks up specified item \n" );
 		
 			
 			break;
@@ -130,17 +132,35 @@ public class AdventureMain {
 		//go through all of the itmes, 
 		for (Item item : itemList){
 			//Any that have location == currRoomID --> print out.
-			//if(
+			if(item.location == currRoomID) {
+				System.out.println("There is a " + item.name + " here.");
+			}
 		}
 		
 	}
 	
 	
 	void makeItems() {
-		Item i = new Item("flashlight", "A flashlight, ready to guide the way through dark places", 1);	
+		Item i = new Item("flashlight", "A flashlight, ready to guide the way through dark places", 2);	
 		itemList.add(i);
 		
+		Item n = new Item("Rocket launcher", "Yay!", 7);	
+		itemList.add(n);
+		
+		Item p = new Item("Sub-machine gun", "automatic!", 7);	
+		itemList.add(p);
 
+		Item k = new Item("Katana", "Sharp!", 7);	
+		itemList.add(k);
+		
+		Item q = new Item("Strange device", "What does it do?", 10);	
+		itemList.add(q);
+		
+		Item s = new Item("Spoon", "good for eating..... and other stuff", 5);	
+		itemList.add(s);
+		
+		Item r = new Item("Keycard", "What will it let the user access?", 6);	
+		itemList.add(r);
 	}
 	
 	
@@ -215,3 +235,4 @@ public class AdventureMain {
 	}
 	
 }
+	
