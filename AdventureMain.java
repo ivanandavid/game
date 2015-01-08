@@ -3,9 +3,11 @@ import java.util.*;
 
 public class AdventureMain {
 
+	static final int INVENTORY = -99;  //for item location
 	//global (instance) variables
 	ArrayList<Room> roomList = new ArrayList<Room>();
 	ArrayList<Item> itemList = new ArrayList<Item>();
+	//ArrayList<String> inventory = new ArrayList<String>();
 	int currRoomID = 1;
 	Room currentRoom = new Room(0,"","");;
 	
@@ -91,6 +93,9 @@ public class AdventureMain {
 		case "NORTH": case "SOUTH": case "EAST": case "WEST":
 			move(word1.charAt(0));
 			break;
+		case "INVENTORY":
+			//listInventory();
+			break;
 		case "LOOK":
 			// if (word2.equals("AT")) { // FOR LOOKING AT AN ITEM OK
 				//	lookAtObject(words[]);
@@ -106,9 +111,12 @@ public class AdventureMain {
 			"\"Look\"- Gives you a description of your surroundings \n"+
 			"\"Quit\" or \"die\"- ends your game (lol) \n"+
 			"\"Help\"- gives you a list of commands (duh) \n"+
-			"\"Pick up (Items name)\"- picks up specified item \n" );
-		
-			
+			"\"Take (Items name)\"- picks up specified item \n"
+			);
+		break;
+		case "TAKE":
+		case "PICK" :
+			takeObject(words);
 			break;
 		default: 
 			System.out.println("Sorry, I don't understand that command");
@@ -139,21 +147,44 @@ public class AdventureMain {
 		
 	}
 	
+	void takeObject(String[] words) {
+		String itemName = "";
+		if (words[0].equals ("PICK") && words[1].equals ("UP") )
+			itemName = words[2];
+		else {
+			itemName = words[1];
+		}	 
+		//is itemName in the room?
+		boolean found = false;		
+		for (Item q : itemList) {
+			if (q.location == currRoomID) { // it is in the room
+				q.location = INVENTORY;			
+				found = true;
+				System.out.print("You take the " + itemName);
+				break;
+			}
+		}
+		if (! found) {
+			System.out.println("There is no " + itemName + " here.");
+			return;
+		}	
+	}
+	
 	
 	void makeItems() {
 		Item i = new Item("flashlight", "A flashlight, ready to guide the way through dark places", 2);	
 		itemList.add(i);
 		
-		Item n = new Item("Rocket launcher", "Yay!", 7);	
+		Item n = new Item("RPG", "Yay!", 7);	
 		itemList.add(n);
 		
-		Item p = new Item("Sub-machine gun", "automatic!", 7);	
+		Item p = new Item("Uzi", "automatic!", 7);	
 		itemList.add(p);
 
 		Item k = new Item("Katana", "Sharp!", 7);	
 		itemList.add(k);
 		
-		Item q = new Item("Strange device", "What does it do?", 10);	
+		Item q = new Item("device", "What does it do?", 10);	
 		itemList.add(q);
 		
 		Item s = new Item("Spoon", "good for eating..... and other stuff", 5);	
@@ -236,3 +267,4 @@ public class AdventureMain {
 	
 }
 	
+
