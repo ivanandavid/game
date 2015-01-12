@@ -1,4 +1,3 @@
-
 import java.util.*;
 
 public class AdventureMain {
@@ -84,17 +83,23 @@ public class AdventureMain {
 		//directions:
 		switch(word1) {
 		case "QUIT":
+		case "EXIT":
+		case "DIE":
+		case "END":
+		case "PERISH":
+		case "EXPIRE":
+		case "TERMINATE":
+		case "CRUCIFY":
+		case "WASTE":
+		case "EXPLODE":
 			System.out.print("Do you really want to quit the game?\n");
 			String ans = getCommand().toUpperCase();
 			if (ans.equals("Y") || ans.equals("YES")) return false;	
-			System.out.println("\n" + currentRoom.getTitle());			
+			System.out.println("\n" + currentRoom.getTitle()); 			
 			return true;
 		case "N": case "E": case "S": case "W":
 		case "NORTH": case "SOUTH": case "EAST": case "WEST":
 			move(word1.charAt(0));
-			break;
-		case "INVENTORY":
-			//listInventory();
 			break;
 		case "LOOK":
 			// if (word2.equals("AT")) { // FOR LOOKING AT AN ITEM OK
@@ -111,21 +116,25 @@ public class AdventureMain {
 			"\"Look\"- Gives you a description of your surroundings \n"+
 			"\"Quit\" or \"die\"- ends your game (lol) \n"+
 			"\"Help\"- gives you a list of commands (duh) \n"+
-			"\"Take (Items name)\"- picks up specified item \n"
-			);
+			"\"Take (Item name)\"- picks up specified item \n"+
+			"\"Use (Item name)\"- uses specified item \n");
 		break;
 		case "TAKE":
 		case "PICK" :
 			takeObject(words);
 			break;
-		default: 
-			System.out.println("Sorry, I don't understand that command");
-			System.out.println("\n" + currentRoom.getTitle() + ", " + currentRoom.getDesc());
-		}			
-		return true;
+		case "INVENTORY":
+		case "I":
+			displayInventory();
+			break;
+		// case "USE" // needs to be done
+			// useObject(words);
 		
 		
-	}			
+		
+		
+	}	
+	
 	
 	void move(char dir) {
 		int newRoom = currentRoom.getExit(dir);
@@ -146,7 +155,7 @@ public class AdventureMain {
 		}
 		
 	}
-	
+
 	void takeObject(String[] words) {
 		String itemName = "";
 		if (words[0].equals ("PICK") && words[1].equals ("UP") )
@@ -160,7 +169,7 @@ public class AdventureMain {
 			if (q.location == currRoomID) { // it is in the room
 				q.location = INVENTORY;			
 				found = true;
-				System.out.print("You take the " + itemName);
+				System.out.println("You take the " + itemName);
 				break;
 			}
 		}
@@ -169,8 +178,21 @@ public class AdventureMain {
 			return;
 		}	
 	}
+
+	void displayInventory() {
+		System.out.println("******************************************************************");
+		System.out.println("Your Inventory:\n");
+		//go thourgh each item in itemList and print out the names of all items that have location=-99
+		for (Item qq: itemList){  
+			//Any that have location == currRoomID --> print out.
+			if(qq.location == -99) {
+				System.out.println(qq.name);
+			}
+		}
+		System.out.println("******************************************************************");
+	}
 	
-	
+/////////////////////////////////////////////////////////////////////////
 	void makeItems() {
 		Item i = new Item("flashlight", "A flashlight, ready to guide the way through dark places", 2);	
 		itemList.add(i);
@@ -266,5 +288,3 @@ public class AdventureMain {
 	}
 	
 }
-	
-
