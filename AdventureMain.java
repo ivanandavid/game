@@ -1,3 +1,4 @@
+
 import java.util.*;
 
 public class AdventureMain {
@@ -95,7 +96,7 @@ public class AdventureMain {
 			System.out.print("Do you really want to quit the game?\n");
 			String ans = getCommand().toUpperCase();
 			if (ans.equals("Y") || ans.equals("YES")) return false;	
-			System.out.println("\n" + currentRoom.getTitle()); 			
+		System.out.println("\n" + currentRoom.getTitle()); 			
 			return true;
 		case "N": case "E": case "S": case "W":
 		case "NORTH": case "SOUTH": case "EAST": case "WEST":
@@ -103,7 +104,7 @@ public class AdventureMain {
 			break;
 		case "LOOK":
 			// if (word2.equals("AT")) { // FOR LOOKING AT AN ITEM OK
-				//	lookAtObject(words[]);
+			//	lookAtObject(words[]);
 			// }
 			System.out.println("You are in the "+ currentRoom.getTitle() + ". " + currentRoom.getDesc());
 			break;
@@ -118,7 +119,7 @@ public class AdventureMain {
 			"\"Help\"- gives you a list of commands (duh) \n"+
 			"\"Take (Item name)\"- picks up specified item \n"+
 			"\"Use (Item name)\"- uses specified item \n");
-		break;
+			break;
 		case "TAKE":
 		case "PICK" :
 			takeObject(words);
@@ -127,14 +128,13 @@ public class AdventureMain {
 		case "I":
 			displayInventory();
 			break;
-		// case "USE" // needs to be done
-			// useObject(words);
-		
-		
-		
-		
-	}	
-	
+		//case "USE": // needs to be done
+			//useObject(words);
+			//break;
+			
+		}	
+		return true;
+	} //end of parseCommand()
 	
 	void move(char dir) {
 		int newRoom = currentRoom.getExit(dir);
@@ -156,10 +156,12 @@ public class AdventureMain {
 		
 	}
 
+	
+	
 	void takeObject(String[] words) {
 		String itemName = "";
 		if (words[0].equals ("PICK") && words[1].equals ("UP") )
-			itemName = words[2];
+		itemName = words[2];
 		else {
 			itemName = words[1];
 		}	 
@@ -178,6 +180,7 @@ public class AdventureMain {
 			return;
 		}	
 	}
+	
 
 	void displayInventory() {
 		System.out.println("******************************************************************");
@@ -192,20 +195,8 @@ public class AdventureMain {
 		System.out.println("******************************************************************");
 	}
 	
-/////////////////////////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////////////////////////
 	void makeItems() {
-		Item i = new Item("flashlight", "A flashlight, ready to guide the way through dark places", 2);	
-		itemList.add(i);
-		
-		Item n = new Item("RPG", "Yay!", 7);	
-		itemList.add(n);
-		
-		Item p = new Item("Uzi", "automatic!", 7);	
-		itemList.add(p);
-
-		Item k = new Item("Katana", "Sharp!", 7);	
-		itemList.add(k);
-		
 		Item q = new Item("device", "What does it do?", 10);	
 		itemList.add(q);
 		
@@ -253,7 +244,7 @@ public class AdventureMain {
 		r = new Room(6, "reception", "");
 		//		   N E S W
 		r.setExits(3,10,0,0); //** you can only go east if you have an object ***
-		r.setDesc("You feel jittery being this close to the exit. There is a guard with his back turned to you");
+		r.setDesc("You feel jittery being this close to the exit. There is a dead guard with a keycard lying next to him");
 		roomList.add(r);
 		
 		r = new Room(7, "barracks", "");
@@ -287,4 +278,7 @@ public class AdventureMain {
 		// }
 	}
 	
-}
+}   
+
+
+	
