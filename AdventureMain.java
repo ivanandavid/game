@@ -2,7 +2,14 @@ import java.util.*;
 
 public class AdventureMain {
 
+	
+	
+	//room constants -- none must be the same as other rooms.
 	static final int INVENTORY = -99;  //for item location
+	static final int WARDENS_OFFICE = 5;  
+	static final int RECEPTION = 6;  
+	
+	
 	//global (instance) variables
 	ArrayList<Room> roomList = new ArrayList<Room>();
 	ArrayList<Item> itemList = new ArrayList<Item>();
@@ -61,11 +68,6 @@ public class AdventureMain {
 		return text;
 	}
 	
-	/* Commands that work so far:
-	GO direction, direction,
-	LOOK, QUIT
-	?, HELP  <--- not working yet
-	*/
 	boolean parseCommand(String text) {
 		
 		
@@ -95,16 +97,13 @@ public class AdventureMain {
 			System.out.print("Do you really want to quit the game?\n");
 			String ans = getCommand().toUpperCase();
 			if (ans.equals("Y") || ans.equals("YES")) return false;	
-		System.out.println("\n" + currentRoom.getTitle()); 			
+			System.out.println("\n" + currentRoom.getTitle()); 			
 			return true;
 		case "N": case "E": case "S": case "W":
 		case "NORTH": case "SOUTH": case "EAST": case "WEST":
 			move(word1.charAt(0));
 			break;
 		case "LOOK":
-			// if (word2.equals("AT")) { // FOR LOOKING AT AN ITEM OK
-			//	lookAtObject(words[]);
-			// }
 			System.out.println("You are in the "+ currentRoom.getTitle() + ". " + currentRoom.getDesc());
 			break;
 		case "?": case "HELP":
@@ -127,9 +126,9 @@ public class AdventureMain {
 		case "I":
 			displayInventory();
 			break;
-		//case "USE": // needs to be done
-			//useObject(words);
-			//break;
+		case "USE": 
+			useObject(words);
+			break;
 			
 		}	
 		return true;
@@ -155,7 +154,56 @@ public class AdventureMain {
 		
 	}
 
-	
+	void useObject(String[] words) {
+		//see if object <words[1]> is in inventory
+		boolean found = false;	
+		for (Item q : itemList) {
+			if (q.name.toUpperCase().equals(words[1]) && q.location == INVENTORY) { 				
+				found = true;				
+				break;
+			}
+		}	
+		if (! found) {
+			System.out.println("The thingy is not in your inventory");
+			return;
+		}	
+		//now we know that the item is in the inventory so ...
+		
+		//special situations
+		if (words[1].equals ("SPOON") && currRoomID == RECEPTION){			
+			System.out.println("The wall starts to crumble and falls over.");
+			currRoomID = 10;
+			System.out.println("You are in the vault. There is no treasure, only a small device!");
+			return;
+		}
+		
+		if (words[1].equals ("DEVICE") && currRoomID == 10){			
+			System.out.println("You press a button and are emersed in light, you magicly appear in the warden's office");
+			currRoomID = 9;
+			System.out.println("You are in the Warden's office. You are so close to freedom, you find a keycard and a security door.");
+			return;
+		}
+		if (words[1].equals ("KEYCARD") && currRoomID == 9){			
+			System.out.println("You press a button and are emersed in light, you magicly appear in the warden's office");
+			currRoomID = 11;
+			System.out.println("You are outside now. You are free!!");
+			System.out.println("Then you hear the shots and it's too late");
+			System.out.println("GAME OVER KID GG");
+			System.out.println("you played the system and it bit you in the butt!");
+			System.exit(0);
+			return;
+		}
+		if (words[1].equals ("VIAL") && currRoomID == 18){			
+			System.out.println("You consume the vial of liquid.");
+			System.out.println("Your vision becomes blurry,");
+			System.out.println("you fall to the ground,");
+			System.out.println("and your eyes close");
+			System.out.println("Good job finding the only way to die in this game.");
+			System.exit(0);
+		}
+			
+		System.out.println("this thingy won't work here");
+	}
 	
 	void takeObject(String[] words) {
 		String itemName = "";
@@ -181,6 +229,7 @@ public class AdventureMain {
 	}
 	
 
+
 	void displayInventory() {
 		System.out.println("******************************************************************");
 		System.out.println("Your Inventory:\n");
@@ -196,14 +245,20 @@ public class AdventureMain {
 	
 	/////////////////////////////////////////////////////////////////////////
 	void makeItems() {
-		Item q = new Item("device", "What does it do?", 10);	
+		Item q = new Item("Device", "What does it do?", 10); // teleports you to the warden's office from the vault.
 		itemList.add(q);
 		
-		Item s = new Item("Spoon", "good for eating..... and other stuff", 5);	
+		Item s = new Item("Spoon", "good for eating..... and other stuff", 17);	// Allows you to break the reception wall into the vault
 		itemList.add(s);
 		
-		Item r = new Item("Keycard", "What will it let the user access?", 6);	
+		Item r = new Item("Keycard", "What will it let the user access?", 9);	//allows you to escape through a door in the warden's office.
 		itemList.add(r);
+		
+		
+		Item r = new Item("Vial", "What will happen if you use it?", 18);	// kills you
+		itemList.add(r);
+		
+		
 	}
 	
 	
@@ -223,52 +278,102 @@ public class AdventureMain {
 		
 		r = new Room(3, "Hub", "");
 		//		   N E S W
-		r.setExits(4,7,6,2); 
+		r.setExits(4,7,RECEPTION,2); 
 		r.setDesc("This appears to have entrances to many other rooms. Dont get lost, or its game over man!");
 		roomList.add(r);
 		
-		// *******************************Requires flash light because it is so dark************************************8
+		
 		r = new Room(4, "cafe", "");
 		//		   N E S W
-		r.setExits(0,9,3,5); 
-		r.setDesc("Its the cafateria, but its way too dark to see anything");// needs object for progression
+		r.setExits(0,0,3,5); 
+		r.setDesc("Its the cafateria, it's pretty gross and hasn't been cleaned in awhile");
 		roomList.add(r);
 		
 		r = new Room(5, "kitchen", "");
 		//		   N E S W
 		r.setExits(0,4,0,0); 
-		r.setDesc("It is surprisingly clean inside the kitchen");// after cafe
+		r.setDesc("It is surprisingly clean inside the kitchen. There is a note here that says: \n I took the diggers spoon, so you will never escape! ~warden~");// after cafe
 		roomList.add(r);
 		
-		r = new Room(6, "reception", "");
+		r = new Room(RECEPTION, "reception", "");
 		//		   N E S W
-		r.setExits(3,10,0,0); //** you can only go east if you have an object ***
-		r.setDesc("You feel jittery being this close to the exit. There is a dead guard with a keycard lying next to him");
+		r.setExits(3,0,0,0); //** you can only go east if you have an object ***
+		r.setDesc("You feel jittery being this close to the exit. One of the walls looks very brittle");
 		roomList.add(r);
 		
 		r = new Room(7, "barracks", "");
 		//		   N E S W
-		r.setExits(9,8,0,3); 
-		r.setDesc("Where are all the guards? There is a large mound of weapons on the floor");
+		r.setExits(0,8,0,3); 
+		r.setDesc("Where are all the guards? All the guns are missing");
 		roomList.add(r);
 		
 		r = new Room(8, "filing room", "");
 		//		   N E S W
-		r.setExits(0,0,0,7); 
-		r.setDesc("Filing cabinets take up most of the space in this small room");
+		r.setExits(0,12,0,7); 
+		r.setDesc("Filing cabinets take up most of the space in this small room. \n There appears to be a tunnel dug into the wall");
 		roomList.add(r);
+	
 		
 		r = new Room(9, "warden's office", "");
 		//		   N E S W
-		r.setExits(0,0,7,0); 
-		r.setDesc("You are so close to freedom. this place emanates with evil");
+		r.setExits(0,0,0,0); 
+		r.setDesc("You are so close to freedom, you find a keycard and a security door.");
 		roomList.add(r);
 		
-		// *******************************needs an object to enter***********************************************
+		
 		r = new Room(10, "vault", "");
 		//		   N E S W
 		r.setExits(0,0,0,0); 
 		r.setDesc("There is no treasure! Nothing but a small device");
+		roomList.add(r);
+		
+		r = new Room(11, "outside", "");
+		//         N E S W
+		r.setExits(0,0,0,0);
+		r.setDesc("You are free1111");
+		roomList.add(r);
+		
+		r = new Room(12, "Dark tunnel", "");
+		//         N E S W
+		r.setExits(0,13,0,8);
+		r.setDesc("Why did you go in here? its so scary!");
+		roomList.add(r);
+		
+		
+		r = new Room(13, "Cave Entrance", "");
+		//         N E S W
+		r.setExits(15,0,14,12);
+		r.setDesc("You find yourself in a massive cave. Is this natural, or man-made?");
+		roomList.add(r);
+		
+		r = new Room(14, "Abandoned village", "");
+		//         N E S W
+		r.setExits(13,16,0,0);
+		r.setDesc("Did people live here? To the right, The largest house's door is open");
+		roomList.add(r);
+		
+		r = new Room(15, "Underground Stream", "");
+		//         N E S W
+		r.setExits(0,0,13,0);
+		r.setDesc("Fresh water runs along the cavern edge. Pretty pointless");
+		roomList.add(r);
+		
+		r = new Room(16, "Front Hallway", "");
+		//         N E S W
+		r.setExits(17,0,18,14);
+		r.setDesc("What a lovley hall");
+		roomList.add(r);
+		
+		r = new Room(17, "Dining Room", "");
+		//         N E S W
+		r.setExits(0,0,16,0);
+		r.setDesc("A fancy dining hall that appears untouched.");
+		roomList.add(r);
+		
+		r = new Room(17, "Lounge", "");
+		//         N E S W
+		r.setExits(0,0,16,0);
+		r.setDesc("A spacious room with lots of places to sit, you find a vial of something on the ground.");
 		roomList.add(r);
 		
 		
