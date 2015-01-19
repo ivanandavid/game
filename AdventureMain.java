@@ -1,10 +1,8 @@
-import java.util.*;
+ import java.util.*;
 
 public class AdventureMain {
 
-	
-	
-	//room constants -- none must be the same as other rooms.
+	//room constants 
 	static final int INVENTORY = -99;  //for item location
 	static final int WARDENS_OFFICE = 5;  
 	static final int RECEPTION = 6;  
@@ -84,7 +82,7 @@ public class AdventureMain {
 		
 		//directions:
 		switch(word1) {
-		case "QUIT":
+		case "QUIT": // different ways to quit/exit the game
 		case "EXIT":
 		case "DIE":
 		case "END":
@@ -119,7 +117,7 @@ public class AdventureMain {
 			"\"Use (Item name)\"- uses specified item \n");
 			break;
 		case "TAKE":
-		case "PICK" :
+		case "PICK" :		
 			takeObject(words);
 			break;
 		case "INVENTORY":
@@ -134,13 +132,13 @@ public class AdventureMain {
 		return true;
 	} //end of parseCommand()
 	
-	void move(char dir) {
+	void move(char dir) { // Moves the player from room to room
 		int newRoom = currentRoom.getExit(dir);
-		if (newRoom == 0) {
-			System.out.println("You can't go that way");
+		if (newRoom == 0) {		
+			System.out.println("You can't go that way");			
 			return;
 		}
-		currRoomID = newRoom;
+		currRoomID = newRoom;		
 		updateCurrentRoom(currRoomID);
 		System.out.println("You walk to the "+ currentRoom.getTitle() + ". " + currentRoom.getDesc());
 		//now see if there are any items in the room. 
@@ -154,7 +152,7 @@ public class AdventureMain {
 		
 	}
 
-	void useObject(String[] words) {
+	void useObject(String[] words) { //handles using objects
 		//see if object <words[1]> is in inventory
 		boolean found = false;	
 		for (Item q : itemList) {
@@ -193,7 +191,7 @@ public class AdventureMain {
 			System.exit(0);
 			return;
 		}
-		if (words[1].equals ("VIAL") && currRoomID == 18){			
+		if (words[1].equals ("VIAL")){			
 			System.out.println("You consume the vial of liquid.");
 			System.out.println("Your vision becomes blurry,");
 			System.out.println("you fall to the ground,");
@@ -205,7 +203,7 @@ public class AdventureMain {
 		System.out.println("this thingy won't work here");
 	}
 	
-	void takeObject(String[] words) {
+	void takeObject(String[] words) { // handles taking objects
 		String itemName = "";
 		if (words[0].equals ("PICK") && words[1].equals ("UP") )
 		itemName = words[2];
@@ -230,7 +228,7 @@ public class AdventureMain {
 	
 
 
-	void displayInventory() {
+	void displayInventory() { // displays the current items in your inventory.
 		System.out.println("******************************************************************");
 		System.out.println("Your Inventory:\n");
 		//go thourgh each item in itemList and print out the names of all items that have location=-99
@@ -244,25 +242,24 @@ public class AdventureMain {
 	}
 	
 	/////////////////////////////////////////////////////////////////////////
-	void makeItems() {
+	void makeItems() { //makes the items, there description, and starter location.
 		Item q = new Item("Device", "What does it do?", 10); // teleports you to the warden's office from the vault.
 		itemList.add(q);
 		
-		Item s = new Item("Spoon", "good for eating..... and other stuff", 17);	// Allows you to break the reception wall into the vault
-		itemList.add(s);
+		q = new Item("Spoon", "good for eating..... and other stuff", 17);	// Allows you to break the reception wall into the vault
+		itemList.add(q);
 		
-		Item r = new Item("Keycard", "What will it let the user access?", 9);	//allows you to escape through a door in the warden's office.
-		itemList.add(r);
-		
-		
-		Item r = new Item("Vial", "What will happen if you use it?", 18);	// kills you
-		itemList.add(r);
+		q = new Item("Keycard", "What will it let the user access?", 9);	//allows you to escape through a door in the warden's office.
+		itemList.add(q);
+				
+		q = new Item("Vial", "What will happen if you use it?", 18);	// kills you
+		itemList.add(q);
 		
 		
 	}
 	
 	
-	void setupRooms() {
+	void setupRooms() { // creates the room's, there descriptions, the different ways to can travel between rooms
 
 		Room r = new Room(1, "Jail Cell","");
 		//		   N E S W
@@ -339,7 +336,6 @@ public class AdventureMain {
 		r.setDesc("Why did you go in here? its so scary!");
 		roomList.add(r);
 		
-		
 		r = new Room(13, "Cave Entrance", "");
 		//         N E S W
 		r.setExits(15,0,14,12);
@@ -370,16 +366,12 @@ public class AdventureMain {
 		r.setDesc("A fancy dining hall that appears untouched.");
 		roomList.add(r);
 		
-		r = new Room(17, "Lounge", "");
+		r = new Room(18, "Lounge", "");
 		//         N E S W
-		r.setExits(0,0,16,0);
-		r.setDesc("A spacious room with lots of places to sit, you find a vial of something on the ground.");
+		r.setExits(0,0,0,0);
+		r.setDesc("A spacious room with lots of places to sit, and the door slams behind you. you find a vial of something on the ground.");
 		roomList.add(r);
-		
-		
-		// for (Room m : roomList){
-		// System.out.println(m.getTitle());
-		// }
+
 	}
 	
 }   
